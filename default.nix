@@ -5,5 +5,8 @@
   lib = import ./lib { inherit pkgs; };
   modules = import ./modules;
   overlays = import ./overlays;
-}
 
+  finalfusion-utils = pkgs.callPackage ./pkgs/finalfusion-utils {
+    withOpenblas = true;
+  };
+}
