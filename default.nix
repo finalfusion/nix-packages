@@ -6,6 +6,8 @@
   modules = import ./modules;
   overlays = import ./overlays;
 
+  finalfrontier = pkgs.callPackage ./pkgs/finalfrontier {};
+
   finalfusion-utils = pkgs.callPackage ./pkgs/finalfusion-utils {
     withOpenblas = true;
   };
