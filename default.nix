@@ -9,4 +9,8 @@
   finalfusion-utils = pkgs.callPackage ./pkgs/finalfusion-utils {
     withOpenblas = true;
   };
+
+  python3Packages = pkgs.recurseIntoAttrs(
+    pkgs.python3Packages.callPackage ./pkgs/python-modules {}
+  );
 }
