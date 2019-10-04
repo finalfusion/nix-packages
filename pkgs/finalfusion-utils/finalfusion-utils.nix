@@ -18,12 +18,12 @@ rec {
   #
 
   rootCrate = {
-    packageId = "finalfusion-utils 0.9.0 (path+file:///home/daniel/git/finalfusion-utils)";
+    packageId = "finalfusion-utils 0.9.1 (path+file:///home/daniel/git/finalfusion-utils)";
 
     # Use this attribute to refer to the derivation building your root crate package.
     # You can override the features with rootCrate.build.override { features = [ "default" "feature1" ... ]; }.
     build = buildRustCrateWithFeatures {
-      packageId = "finalfusion-utils 0.9.0 (path+file:///home/daniel/git/finalfusion-utils)";
+      packageId = "finalfusion-utils 0.9.1 (path+file:///home/daniel/git/finalfusion-utils)";
       features = rootFeatures;
     };
   };
@@ -34,9 +34,9 @@ rec {
   # workspaceMembers."${crateName}".build.override { features = [ "default" "feature1" ... ]; }.
   workspaceMembers = {
     "finalfusion-utils" = {
-      packageId = "finalfusion-utils 0.9.0 (path+file:///home/daniel/git/finalfusion-utils)";
+      packageId = "finalfusion-utils 0.9.1 (path+file:///home/daniel/git/finalfusion-utils)";
       build = buildRustCrateWithFeatures {
-        packageId = "finalfusion-utils 0.9.0 (path+file:///home/daniel/git/finalfusion-utils)";
+        packageId = "finalfusion-utils 0.9.1 (path+file:///home/daniel/git/finalfusion-utils)";
         features = rootFeatures;
       };
     };
@@ -916,7 +916,7 @@ rec {
           "memmap" = "memmap 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)";
           "ndarray" = "ndarray 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)";
           "ordered-float" = "ordered-float 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)";
-          "rand" = "rand 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)";
+          "rand" = "rand 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)";
           "rand_xorshift" = "rand_xorshift 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)";
           "reductive" = "reductive 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)";
           "serde" = {
@@ -928,10 +928,10 @@ rec {
         features = {
         };
       };
-    "finalfusion-utils 0.9.0 (path+file:///home/daniel/git/finalfusion-utils)"
+    "finalfusion-utils 0.9.1 (path+file:///home/daniel/git/finalfusion-utils)"
       = rec {
         crateName = "finalfusion-utils";
-        version = "0.9.0";
+        version = "0.9.1";
         edition = "2018";
         src = (builtins.filterSource sourceFilter ./.);
         authors = [
@@ -2474,12 +2474,12 @@ rec {
         };
         resolvedDefaultFeatures = [ "alloc" "default" "rand_os" "std" ];
       };
-    "rand 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)"
+    "rand 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)"
       = rec {
         crateName = "rand";
-        version = "0.7.1";
+        version = "0.7.2";
         edition = "2018";
-        sha256 = "0hgj4mqbwgza615g0p9y13bvz213vcprsrw8hl00vzy25c550hsr";
+        sha256 = "1f53047g63b9kyyx1k8wgwzspk4n96w2n2h1a9848ggl9y9h0ik6";
         authors = [
           "The Rand Project Developers"
           "The Rust Project Developers"
@@ -2929,7 +2929,7 @@ rec {
           "num-traits" = "num-traits 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)";
           "ordered-float" = "ordered-float 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)";
           "rand" = {
-            packageId = "rand 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)";
+            packageId = "rand 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)";
             features = [ "small_rng" ];
           };
           "rand_core" = "rand_core 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)";
@@ -3487,7 +3487,7 @@ rec {
             packageId = "libc 0.2.62 (registry+https://github.com/rust-lang/crates.io-index)";
             target = target."unix";
           };
-          "rand" = "rand 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)";
+          "rand" = "rand 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)";
           "redox_syscall" = {
             packageId = "redox_syscall 0.1.56 (registry+https://github.com/rust-lang/crates.io-index)";
             target = (target."os" == "redox");

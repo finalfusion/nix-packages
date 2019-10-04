@@ -27,8 +27,8 @@ let
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-utils";
-    rev = "0.9.0";
-    sha256 = "0ffwh3rbjn9cl8fdg9jaq035lkphbrhpxjm2dqvx46kzjn9550qm";
+    rev = "0.9.1";
+    sha256 = "1add7y2y0kig4qlzkaxn91xkf6wpkpdzji1jzssv0sgpczqk6489";
   };
   cargo_nix = callPackage ./finalfusion-utils.nix {
     rootFeatures = [ "default" ]
