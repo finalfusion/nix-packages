@@ -2,10 +2,14 @@
 , callPackage
 , defaultCrateOverrides
 , fetchFromGitHub
-, python
+, makeRustPlatform
+
+  # Native build inputs
+, maturin
 
   # Build inputs
 , darwin
+, python
 
   # Propagated build inputs
 , numpy
@@ -22,57 +26,61 @@ let
     sha256 = "18h0nvh55b5an4gmlgfbvwbyqj91bklf1zymis6lbdh75571qaz0";
   };
   mozilla = callPackage "${mozillaOverlay.out}/package-set.nix" {};
-  rustNightly = (mozilla.rustChannelOf { date = "2019-07-19"; channel = "nightly"; }).rust;
+  rustNightly = (mozilla.rustChannelOf { date = "2019-07-30"; channel = "nightly"; }).rust;
+  rustPlatform = makeRustPlatform { cargo = rustNightly; rustc = rustNightly; };
+in rustPlatform.buildRustPackage rec {
+  pname = "finalfusion";
+  version = "0.5.0";
+  name = "${python.libPrefix}-${pname}-${version}";
+
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-python";
-    rev = "0.5.0";
+    rev = version;
     sha256 = "1kkpq8s5bn4gd65gxqxfzi1i4cv8pii0kcr3k0kxybdadqqi5p8a";
   };
-  cargo_nix = callPackage ./finalfusion.nix {};
-in
-cargo_nix.rootCrate.build.override {
-  rust = rustNightly;
 
-  crateOverrides = defaultCrateOverrides // {
-    finalfusion-python = attr: rec {
-      inherit src;
+  cargoSha256 = "138gk3bv3ipr1xcsj800sr0nwsw5m47l94a1zchxl6aqh5ynvwk1";
 
-      pname = "finalfusion";
-      name = "${python.libPrefix}-${pname}-${attr.version}";
+  nativeBuildInputs = [ maturin python.pkgs.pip ];
 
-      buildInputs = stdenv.lib.optional stdenv.isDarwin darwin.Security;
+  buildInputs = [ python ] ++ stdenv.lib.optional stdenv.isDarwin darwin.Security;
 
-      propagatedBuildInputs = [ numpy ];
+  propagatedBuildInputs = [ numpy ];
 
-      installCheckInputs = [ pytest ];
+  installCheckInputs = [ pytest ];
 
-      doInstallCheck = true;
+  doCheck = false;
 
-      installPhase = let
-        sitePackages = python.sitePackages;
-        sharedLibrary = stdenv.hostPlatform.extensions.sharedLibrary;
-      in ''
-        mkdir -p "$out/${sitePackages}"
-        cp target/lib/libfinalfusion-*${sharedLibrary} \
-          "$out/${sitePackages}/finalfusion.so"
-        export PYTHONPATH="$out/${sitePackages}:$PYTHONPATH"
-      '';
+  doInstallCheck = true;
 
-      installCheckPhase = ''
-        pytest
-      '';
+  buildPhase = ''
+    runHook preBuild
 
-      meta = with stdenv.lib; {
-        description = "Python module for the finalfusion embedding format";
-        license = licenses.asl20;
-        maintainers = with maintainers; [ danieldk ];
-        platforms = platforms.all;
-      };
-    };
+    maturin build --release --manylinux off
 
-    pyo3 = attr: {
-      buildInputs = [ python ];
-    };
+    runHook postBuild
+  '';
+
+  installPhase = ''
+    runHook preInstall
+
+    ${python.pythonForBuild.pkgs.bootstrapped-pip}/bin/pip install \
+      target/wheels/*.whl --no-index --prefix=$out --no-cache --build tmpbuild
+
+    runHook postInstall
+  '';
+
+  installCheckPhase = let
+    sitePackages = python.sitePackages;
+  in ''
+    PYTHONPATH="$out/${sitePackages}:$PYTHONPATH" pytest
+  '';
+
+  meta = with stdenv.lib; {
+    description = "Python module for the finalfusion embedding format";
+    license = licenses.asl20;
+    maintainers = with maintainers; [ danieldk ];
+    platforms = platforms.all;
   };
 }
