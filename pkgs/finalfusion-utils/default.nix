@@ -27,10 +27,10 @@ let
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-utils";
-    rev = "0.9.1";
-    sha256 = "1add7y2y0kig4qlzkaxn91xkf6wpkpdzji1jzssv0sgpczqk6489";
+    rev = "0.10.0";
+    sha256 = "1l4x0x93pd1i99xa2hzm79ahzr1r573h26caxa94adsiamm4dbpd";
   };
-  cargo_nix = callPackage ./finalfusion-utils.nix {
+  cargo_nix = callPackage ./Crate.nix {
     rootFeatures = [ "default" ]
                    ++ lib.optional withOpenblas "openblas"
                    ++ lib.optional withMkl "intel-mkl" ;
