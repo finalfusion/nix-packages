@@ -41,7 +41,7 @@ cargo_nix.rootCrate.build.override {
         ( cd man ; chmod u+w . ; make )
 
         for shell in bash fish zsh; do
-          target/bin/finalfrontier completions $shell > completions.$shell
+          target/bin/finalfrontier completions $shell > finalfrontier.$shell
         done
       '';
 
@@ -56,7 +56,7 @@ cargo_nix.rootCrate.build.override {
         cp man/*.1 "$out/share/man/man1/"
       '' + lib.optionalString (!isNull installShellFiles) ''
         # Install shell completions
-        installShellCompletion completions.{bash,fish,zsh}
+        installShellCompletion finalfrontier.{bash,fish,zsh}
       '';
 
       meta = with stdenv.lib; {

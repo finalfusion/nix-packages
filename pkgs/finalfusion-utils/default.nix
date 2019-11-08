@@ -50,7 +50,7 @@ in cargo_nix.workspaceMembers.finalfusion-utils.build.override {
 
       postBuild = ''
         for shell in bash fish zsh; do
-          target/bin/finalfusion-utils completions $shell > completions.$shell
+          target/bin/finalfusion-utils completions $shell > finalfusion-utils.$shell
         done
       '';
 
@@ -63,7 +63,7 @@ in cargo_nix.workspaceMembers.finalfusion-utils.build.override {
         rm -rf $out/lib
       '' + lib.optionalString (!isNull installShellFiles) ''
         # Install shell completions
-        installShellCompletion completions.{bash,fish,zsh}
+        installShellCompletion finalfusion-utils.{bash,fish,zsh}
       '';
 
       meta = with stdenv.lib; {
