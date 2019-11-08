@@ -7,6 +7,7 @@
 
   # Native build inputs
 , gnumake
+, installShellFiles ? null # Available in 19.09 and later.
 , pandoc
 
   # Build inputs
@@ -17,32 +18,31 @@ let
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfrontier";
-    rev = "0.6.1";
-    sha256 = "1yswamvn58jqskg8vj72lwy22y0b30n83wxm5jb080147zvr0sf8";
+    rev = "0.7.0";
+    sha256 = "1gqszyl000wlbrmqrv0p8i08gmwy05600ynj96wi5m6fk74fg98a";
   };
-  cargo_nix = callPackage ./finalfrontier.nix {};
+  cargo_nix = callPackage ./Cargo.nix {};
 in
-cargo_nix.workspaceMembers.finalfrontier-utils.build.override {
+cargo_nix.rootCrate.build.override {
   crateOverrides = defaultCrateOverrides // {
-    hogwild = attr: { src = "${src}/hogwild"; };
-
-    finalfrontier = attr: { src = "${src}/finalfrontier"; };
-
-    finalfrontier-utils = attr: rec {
+    finalfrontier = attr: rec {
       inherit src;
 
       pname = "finalfrontier";
       name = "${pname}-${attr.version}";
 
-      sourceRoot = "source/finalfrontier-utils";
-
-      nativeBuildInputs = [ gnumake pandoc ];
+      nativeBuildInputs = [ gnumake pandoc ] ++
+        lib.optional (!isNull installShellFiles) installShellFiles;
 
       buildInputs = stdenv.lib.optional stdenv.isDarwin darwin.Security;
 
       postBuild = ''
         # Builder only sets proper write permissions on sourceRoot.
-        ( cd ../man ; chmod u+w . ; make )
+        ( cd man ; chmod u+w . ; make )
+
+        for shell in bash fish zsh; do
+          target/bin/finalfrontier completions $shell > completions.$shell
+        done
       '';
 
       postInstall = ''
@@ -53,7 +53,10 @@ cargo_nix.workspaceMembers.finalfrontier-utils.build.override {
 
         # Install man pages.
         mkdir -p "$out/share/man/man1"
-        cp ../man/*.1 "$out/share/man/man1/"
+        cp man/*.1 "$out/share/man/man1/"
+      '' + lib.optionalString (!isNull installShellFiles) ''
+        # Install shell completions
+        installShellCompletion completions.{bash,fish,zsh}
       '';
 
       meta = with stdenv.lib; {
