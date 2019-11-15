@@ -30,17 +30,17 @@ let
   rustPlatform = makeRustPlatform { cargo = rustNightly; rustc = rustNightly; };
 in rustPlatform.buildRustPackage rec {
   pname = "finalfusion";
-  version = "0.5.0";
+  version = "0.6.0";
   name = "${python.libPrefix}-${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-python";
     rev = version;
-    sha256 = "1kkpq8s5bn4gd65gxqxfzi1i4cv8pii0kcr3k0kxybdadqqi5p8a";
+    sha256 = "1wv53rycj4v5q73iai9zz7d9akqgdgdhfxxqm887dw6kxvjwcq09";
   };
 
-  cargoSha256 = "138gk3bv3ipr1xcsj800sr0nwsw5m47l94a1zchxl6aqh5ynvwk1";
+  cargoSha256 = "0ydfiw001nr9l4b43jwi0zwd2q58v85c4xhi4jr59n9d1sx7j7w9";
 
   nativeBuildInputs = [ maturin python.pkgs.pip ];
 
