@@ -21,17 +21,17 @@
 
 (rustNightly "2019-07-30").buildRustPackage rec {
   pname = "finalfusion";
-  version = "0.6.1";
+  version = "0.6.2";
   name = "${python.libPrefix}-${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-python";
     rev = version;
-    sha256 = "10hzsfn4q40332bzb8imj7ydxfls8z1d6vgafmhalcwq5i0vify1";
+    sha256 = "07h997qq3pma19sap3pjlzp9x1f2h7yacz6zljcqy3ahk1acs6vi";
   };
 
-  cargoSha256 = "1cmw9bjwnscrhp528w8fxka7w8bsc19asdvj921blrrzgadq7p38";
+  cargoSha256 = "0r17ggar0hjxq7lhlqvnnbqjy23j3flv78n3jckn1d6s3v6s3ymj";
 
   nativeBuildInputs = [ maturin python.pkgs.pip ];
 
