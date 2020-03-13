@@ -31,11 +31,11 @@ let
     sha256 = "1l4x0x93pd1i99xa2hzm79ahzr1r573h26caxa94adsiamm4dbpd";
   };
   cargo_nix = callPackage ./Crate.nix {
+    defaultCrateOverrides = crateOverrides;
     rootFeatures = [ "default" ]
                    ++ lib.optional withOpenblas "openblas"
                    ++ lib.optional withMkl "intel-mkl" ;
   };
-in cargo_nix.workspaceMembers.finalfusion-utils.build.override {
   crateOverrides = defaultCrateOverrides // {
     finalfusion-utils = attr: rec {
       inherit src;
@@ -50,17 +50,13 @@ in cargo_nix.workspaceMembers.finalfusion-utils.build.override {
 
       postBuild = ''
         for shell in bash fish zsh; do
-          target/bin/finalfusion-utils completions $shell > finalfusion-utils.$shell
+          ls -lR target
+          target/bin/finalfusion completions $shell > finalfusion-utils.$shell
         done
       '';
 
       postInstall = ''
-        mv $out/bin/finalfusion-utils $out/bin/finalfusion
         rm $out/bin/*.d
-
-        # We do not care for finalfusion-utils as a library crate. Removing
-        # the library reduces the number of dependencies.
-        rm -rf $out/lib
       '' + lib.optionalString (!isNull installShellFiles) ''
         # Install shell completions
         installShellCompletion finalfusion-utils.{bash,fish,zsh}
@@ -87,4 +83,4 @@ in cargo_nix.workspaceMembers.finalfusion-utils.build.override {
       '';
     };
   };
-}
+in cargo_nix.workspaceMembers.finalfusion-utils.build
