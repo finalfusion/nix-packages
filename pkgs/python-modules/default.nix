@@ -1,5 +1,7 @@
-{ callPackage }:
+{ callPackage, rustNightly }:
 
 {
-  finalfusion = callPackage ./finalfusion {};
+  finalfusion = callPackage ./finalfusion {
+    inherit rustNightly;
+  };
 }

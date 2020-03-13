@@ -1,6 +1,8 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import (import ./nix/sources.nix).nixpkgs {} }:
 
-{
+let
+  rustNightly = pkgs.callPackage ./nix/rustNightly.nix {};
+in {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; };
   modules = import ./modules;
@@ -13,6 +15,8 @@
   };
 
   python3Packages = pkgs.recurseIntoAttrs(
-    pkgs.python3Packages.callPackage ./pkgs/python-modules {}
+    pkgs.python3Packages.callPackage ./pkgs/python-modules {
+      inherit rustNightly;
+    }
   );
 }
