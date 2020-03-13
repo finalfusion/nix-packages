@@ -12,6 +12,7 @@
 
   # Build inputs
 , darwin
+, openssl
 }:
 
 let
@@ -34,7 +35,10 @@ cargo_nix.rootCrate.build.override {
       nativeBuildInputs = [ gnumake pandoc ] ++
         lib.optional (!isNull installShellFiles) installShellFiles;
 
-      buildInputs = stdenv.lib.optional stdenv.isDarwin darwin.Security;
+      buildInputs = stdenv.lib.optionals stdenv.isDarwin [
+        darwin.Security
+        openssl
+      ];
 
       postBuild = ''
         # Builder only sets proper write permissions on sourceRoot.
