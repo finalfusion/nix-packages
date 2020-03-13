@@ -11,12 +11,10 @@ jobs:
           - "https://nixos.org/channels/nixos-20.03"
     steps:
     - uses: actions/checkout@v1
-    - uses: cachix/install-nix-action@v3
+    - uses: cachix/install-nix-action@v7
     - run: nix-channel --add ${{ matrix.channel }} nixpkgs
     - run: nix-channel --update
-    - run: sudo sh -c 'echo "sandbox = true" | sudo tee -a /etc/nix/nix.conf'
-    - run: cat /etc/nix/nix.conf
-    - uses: cachix/cachix-action@v2
+    - uses: cachix/cachix-action@v5
       with:
         name: finalfusion
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
