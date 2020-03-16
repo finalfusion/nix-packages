@@ -7,7 +7,7 @@
 
   # Native build inputs
 , gnumake
-, installShellFiles ? null # Available in 19.09 and later.
+, installShellFiles
 , pandoc
 
   # Build inputs
@@ -32,8 +32,7 @@ cargo_nix.rootCrate.build.override {
       pname = "finalfrontier";
       name = "${pname}-${attr.version}";
 
-      nativeBuildInputs = [ gnumake pandoc ] ++
-        lib.optional (!isNull installShellFiles) installShellFiles;
+      nativeBuildInputs = [ gnumake installShellFiles pandoc ];
 
       buildInputs = stdenv.lib.optionals stdenv.isDarwin [
         darwin.Security
@@ -58,7 +57,7 @@ cargo_nix.rootCrate.build.override {
         # Install man pages.
         mkdir -p "$out/share/man/man1"
         cp man/*.1 "$out/share/man/man1/"
-      '' + lib.optionalString (!isNull installShellFiles) ''
+
         # Install shell completions
         installShellCompletion finalfrontier.{bash,fish,zsh}
       '';
