@@ -5,7 +5,7 @@
 , fetchFromGitHub
 
 # Native build inputs
-, installShellFiles ? null # Available in 19.09 and later.
+, installShellFiles
 , perl
 , pkgconfig
 
@@ -43,7 +43,7 @@ let
       pname = "finalfusion-utils";
       name = "${pname}-${attr.version}";
 
-      nativeBuildInputs = lib.optional (!isNull installShellFiles) installShellFiles;
+      nativeBuildInputs = [ installShellFiles ];
 
       buildInputs = lib.optionals withOpenblas [ gfortran.cc.lib openblasCompat ]
         ++ stdenv.lib.optional stdenv.isDarwin darwin.Security;
@@ -57,7 +57,7 @@ let
 
       postInstall = ''
         rm $out/bin/*.d
-      '' + lib.optionalString (!isNull installShellFiles) ''
+
         # Install shell completions
         installShellCompletion finalfusion-utils.{bash,fish,zsh}
       '';
