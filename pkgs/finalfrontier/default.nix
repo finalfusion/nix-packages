@@ -17,18 +17,17 @@
 }:
 
 let
-  src = fetchFromGitHub {
-    owner = "finalfusion";
-    repo = "finalfrontier";
-    rev = "0.7.0";
-    sha256 = "1gqszyl000wlbrmqrv0p8i08gmwy05600ynj96wi5m6fk74fg98a";
+  cargo_nix = callPackage ./Cargo.nix {
+    defaultCrateOverrides = crateOverrides;
   };
-  cargo_nix = callPackage ./Cargo.nix {};
-in
-cargo_nix.rootCrate.build.override {
   crateOverrides = defaultCrateOverrides // {
     finalfrontier = attr: rec {
-      inherit src;
+      src = fetchFromGitHub {
+        owner = "finalfusion";
+        repo = "finalfrontier";
+        rev = "0.8.0";
+        sha256 = "1bc131dczwrslriadm4103qwfxpvhp2v27cq5zqbqy6sb6k2amq0";
+      };
 
       pname = "finalfrontier";
       name = "${pname}-${attr.version}";
@@ -67,4 +66,4 @@ cargo_nix.rootCrate.build.override {
       };
     };
   };
-}
+in cargo_nix.rootCrate.build
