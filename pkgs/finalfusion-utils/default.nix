@@ -27,8 +27,8 @@ let
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-utils";
-    rev = "0.10.0";
-    sha256 = "1l4x0x93pd1i99xa2hzm79ahzr1r573h26caxa94adsiamm4dbpd";
+    rev = "0.11.0";
+    sha256 = "1xplrd0ikv0a9apy87sbkfzmnsg0giy31gnkbm74fxzc8p82cs47";
   };
   cargo_nix = callPackage ./Crate.nix {
     defaultCrateOverrides = crateOverrides;
