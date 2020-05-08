@@ -31,7 +31,7 @@
     sha256 = "07h997qq3pma19sap3pjlzp9x1f2h7yacz6zljcqy3ahk1acs6vi";
   };
 
-  cargoSha256 = "0r17ggar0hjxq7lhlqvnnbqjy23j3flv78n3jckn1d6s3v6s3ymj";
+  cargoSha256 = "0ydfiw001nr9l4b43jwi0zwd2q58v85c4xhi4jr59n9d1sx7j7w9";
 
   nativeBuildInputs = [ maturin python.pkgs.pip ];
 
