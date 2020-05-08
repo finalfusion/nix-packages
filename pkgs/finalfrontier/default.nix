@@ -12,6 +12,7 @@
 
   # Build inputs
 , darwin
+, libiconv
 , openssl
 }:
 
@@ -36,6 +37,7 @@ cargo_nix.rootCrate.build.override {
 
       buildInputs = stdenv.lib.optionals stdenv.isDarwin [
         darwin.Security
+        libiconv
         openssl
       ];
 
@@ -49,11 +51,6 @@ cargo_nix.rootCrate.build.override {
       '';
 
       postInstall = ''
-        rm $out/bin/*.d
-
-        # Remove finalfrontier_utils library.
-        rm -rf $out/lib
-
         # Install man pages.
         mkdir -p "$out/share/man/man1"
         cp man/*.1 "$out/share/man/man1/"

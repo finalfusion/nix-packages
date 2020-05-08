@@ -50,14 +50,11 @@ let
 
       postBuild = ''
         for shell in bash fish zsh; do
-          ls -lR target
           target/bin/finalfusion completions $shell > finalfusion-utils.$shell
         done
       '';
 
       postInstall = ''
-        rm $out/bin/*.d
-
         # Install shell completions
         installShellCompletion finalfusion-utils.{bash,fish,zsh}
       '';
