@@ -40,7 +40,7 @@ let
     finalfusion-utils = attr: rec {
       inherit src;
 
-      pname = "finalfusion-utils";
+      pname = "finalfusion";
       name = "${pname}-${attr.version}";
 
       nativeBuildInputs = [ installShellFiles ];
