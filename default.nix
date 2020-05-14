@@ -3,7 +3,7 @@
 let
   mkl = pkgs.callPackage ./pkgs/mkl {};
   rustNightly = pkgs.callPackage ./nix/rustNightly.nix {};
-in {
+in rec {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; };
   modules = import ./modules;
@@ -11,9 +11,17 @@ in {
 
   finalfrontier = pkgs.callPackage ./pkgs/finalfrontier {};
 
-  finalfusion-utils = pkgs.callPackage ./pkgs/finalfusion-utils {
+  finalfusion = pkgs.callPackage ./pkgs/finalfusion-utils {
     inherit mkl;
     withOpenblas = true;
+  };
+
+  finalfusion-utils =
+    builtins.trace "finalfusion-utils is renamed to finalfusion" finalfusion;
+
+  finalfusionWithMkl = pkgs.callPackage ./pkgs/finalfusion-utils {
+    inherit mkl;
+    withMkl = true;
   };
 
   python3Packages = pkgs.recurseIntoAttrs(
