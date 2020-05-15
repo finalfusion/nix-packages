@@ -1,7 +1,6 @@
 { pkgs ? import (import ./nix/sources.nix).nixpkgs {} }:
 
 let
-  mkl = pkgs.callPackage ./pkgs/mkl {};
   rustNightly = pkgs.callPackage ./nix/rustNightly.nix {};
 in {
   # The `lib`, `modules`, and `overlay` names are special
@@ -12,7 +11,6 @@ in {
   finalfrontier = pkgs.callPackage ./pkgs/finalfrontier {};
 
   finalfusion-utils = pkgs.callPackage ./pkgs/finalfusion-utils {
-    inherit mkl;
     withOpenblas = true;
   };
 
