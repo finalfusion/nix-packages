@@ -9,14 +9,12 @@ jobs:
         platform:
           - ubuntu-latest
           - macos-latest
-        channel:
-          - "https://nixos.org/channels/nixos-20.03"
     runs-on: ${{ matrix.platform }}
     steps:
-    - uses: actions/checkout@v1
-    - uses: cachix/install-nix-action@v8
-    - run: nix-channel --add ${{ matrix.channel }} nixpkgs
-    - run: nix-channel --update
+    - uses: actions/checkout@v2
+    - uses: cachix/install-nix-action@v9
+      with:
+        skip_adding_nixpkgs_channel: true
     - uses: cachix/cachix-action@v6
       with:
         name: finalfusion
