@@ -15,8 +15,6 @@ in {
   };
 
   python3Packages = pkgs.recurseIntoAttrs(
-    pkgs.python3Packages.callPackage ./pkgs/python-modules {
-      inherit rustNightly;
-    }
+    pkgs.python3Packages.callPackage ./pkgs/python-modules {}
   );
 }
