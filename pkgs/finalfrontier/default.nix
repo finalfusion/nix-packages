@@ -25,8 +25,8 @@ let
       src = fetchFromGitHub {
         owner = "finalfusion";
         repo = "finalfrontier";
-        rev = "0.8.0";
-        sha256 = "1bc131dczwrslriadm4103qwfxpvhp2v27cq5zqbqy6sb6k2amq0";
+        rev = attr.version;
+        sha256 = "1b9fqd4wz7ijlagd5w7gjkp0z4lzvi6n8phja8cl3s4mmsi1v55m";
       };
 
       pname = "finalfrontier";
