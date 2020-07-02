@@ -26,7 +26,7 @@ let
         owner = "finalfusion";
         repo = "finalfrontier";
         rev = attr.version;
-        sha256 = "1b9fqd4wz7ijlagd5w7gjkp0z4lzvi6n8phja8cl3s4mmsi1v55m";
+        sha256 = "0lj9vkz6afdhkwqcsklmkghplqw2h1z2pc9wny0mzf7rfa0yf68p";
       };
 
       pname = "finalfrontier";

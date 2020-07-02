@@ -563,7 +563,7 @@ rec {
       };
       "finalfrontier" = rec {
         crateName = "finalfrontier";
-        version = "0.9.0";
+        version = "0.9.1";
         edition = "2018";
         crateBin = [
           { name = "finalfrontier"; path = "src/main.rs"; }
@@ -672,9 +672,9 @@ rec {
       };
       "finalfusion" = rec {
         crateName = "finalfusion";
-        version = "0.12.2";
+        version = "0.12.4";
         edition = "2018";
-        sha256 = "1l1ncbjdh0fr52hkv31jl68g5cq2znahjnmm9ivi9llblzrjla39";
+        sha256 = "0y8jyqm2xcw61kz7yxy2cq3iyk323zicgcq12r1837176jrsw2s5";
         authors = [
           "Daniël de Kok <me@danieldk.eu>"
           "Sebastian Pütz <seb.puetz@gmail.com>"
