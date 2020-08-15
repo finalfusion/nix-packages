@@ -1,6 +1,6 @@
 { buildPythonPackage
 , fetchFromGitHub
-, stdenv
+, lib
 
   # Native build inputs
 , cython
@@ -15,13 +15,13 @@
 
 buildPythonPackage rec {
   pname = "finalfusion";
-  version = "0.7.0";
+  version = "0.7.1";
 
   src = fetchFromGitHub {
     owner = "finalfusion";
     repo = "finalfusion-python";
     rev = version;
-    sha256 = "1g3d9916sywbfl8xzj200jsij4d62jzjd5rkajslrwb0mpwmw4nl";
+    sha256 = "0pwzflamxqvpl1wcz0zbhhd6aa4xn18rmza6rggaic3ckidhyrh4";
   };
 
   nativeBuildInputs = [
@@ -37,15 +37,18 @@ buildPythonPackage rec {
     pytest
   ];
 
+  postPatch = ''
+    patchShebangs tests/integration
+  '';
+
   checkPhase = ''
     pytest
 
-    patchShebangs tests/integration
     export PATH=$PATH:$out/bin
     tests/integration/all.sh
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Python module for the finalfusion embedding format";
     # Until Blue Oak Model License is added, close approximation.
     license = licenses.asl20;
