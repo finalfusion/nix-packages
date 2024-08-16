@@ -57,10 +57,3 @@ repository to a specific revision.
   };
 }
 ~~~
-
-## Binary cache
-
-After each commit, CI uploads builds to
-[cachix](https://cachix.org/). If you want to use this binary cache,
-follow the steps described at
-[finalfusion.cachix.org](https://finalfusion.cachix.org/).
